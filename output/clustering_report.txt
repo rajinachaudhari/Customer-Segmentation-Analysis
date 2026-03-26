@@ -1,0 +1,28 @@
+Segmentation Modeling Report
+============================
+
+Feature selection rationale:
+- We use behavioral, engagement, financial, and risk columns only.
+- These columns describe how often users transact, how engaged they are, how much they spend, and how risky or unusual their activity looks.
+- The raw date column is excluded because clustering works better on numeric behavior signals, not timestamps.
+- Features used: monthly_txn_frequency, avg_txn_value_usd, recency_days, active_days_per_month, feature_adoption_score, spend_to_load_ratio, avg_wallet_balance_usd, monthly_topup_frequency, new_payee_rate, failed_txn_rate, txn_time_spread_hours, total_monthly_spend, account_age_days, transaction_intensity, txns_per_active_day, spend_to_balance_ratio, high_spender_flag, engagement_score, risk_score
+
+K-Means clustering:
+- Selected k: 4
+- Silhouette score for selected k: 0.3707
+- Cluster count: 4
+- Why K-Means here: it creates compact, interpretable groups for the general user base.
+- Parameter choice: k was selected using silhouette score, with a slight bias toward 3 clusters when the score is close to the best result so the segments stay business-friendly.
+
+DBSCAN clustering:
+- Selected eps: 1.5493
+- Selected min_samples: 22
+- Best silhouette score across candidates: 0.3731
+- Non-noise cluster count: 4
+- Noise points flagged as anomalies: 3881
+- Why DBSCAN here: it detects unusual or high-risk behavior and leaves outliers unassigned instead of forcing them into a normal segment.
+- Parameter choice: eps was selected from the k-distance distribution, and min_samples was kept small enough to catch sparse anomalous users.
+
+Key interpretation:
+- K-Means tells you what the normal behavioral groups look like.
+- DBSCAN tells you which users do not fit the normal pattern and should be reviewed separately.
