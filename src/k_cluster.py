@@ -22,7 +22,7 @@ df = df.astype("float32")
 # OUTPUT PATH
 # -------------------------------
 output_dir = Path("output")
-results_dir = output_dir / "results"
+results_dir = output_dir / "kmeans_results"
 results_dir.mkdir(parents=True, exist_ok=True)
 
 # -------------------------------
